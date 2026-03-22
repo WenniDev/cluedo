@@ -1,3 +1,5 @@
+#![windows_subsystem = "windows"]
+
 use std::net::{TcpListener, UdpSocket};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc;
