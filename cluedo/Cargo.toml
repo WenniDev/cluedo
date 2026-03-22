@@ -1,11 +1,11 @@
 [package]
-name = "ddr_capture"
+name = "cluedo"
 version = "0.1.0"
 edition = "2024"
 
 [lib]
 crate-type = ["cdylib"]
-name = "ddr_capture"
+name = "cluedo"
 
 [dependencies]
 anyhow = "1.0.102"
@@ -13,7 +13,7 @@ env_logger = "0.11.9"
 log = "0.4"
 memory-rs = "0.2.6"
 retour = { version = "0.4.0-alpha.4" }
-ddr_protocol = { path = "../ddr_protocol" }
+socket = { path = "../socket" }
 windows = { version = "0.58", features = [
     "Win32_System_SystemServices",
     "Win32_Graphics_Direct3D9",

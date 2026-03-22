@@ -4,9 +4,9 @@ use retour::RawDetour;
 use std::sync::OnceLock;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-use ddr_protocol::{JudgmentKind, Judment, Message};
+use socket::{JudgmentKind, Judment, Message};
 
-use crate::{socket, state};
+use crate::state;
 
 type JudgmentFn = unsafe extern "system" fn(usize, u32, usize, usize) -> usize;
 

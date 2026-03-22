@@ -1,4 +1,4 @@
-use crate::{hook_judgment, hook_next, overlay, socket};
+use crate::{hook_judgment, hook_next, overlay};
 
 use memory_rs::internal::process_info::ProcessInfo;
 

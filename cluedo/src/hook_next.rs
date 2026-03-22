@@ -4,9 +4,9 @@ use retour::RawDetour;
 use std::sync::OnceLock;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-use ddr_protocol::Message;
+use socket::Message;
 
-use crate::{socket, state};
+use crate::state;
 
 type MusicSelectFn = unsafe extern "system" fn(usize) -> usize;
 

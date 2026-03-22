@@ -1,8 +1,7 @@
-mod ddr_capture;
+mod cluedo;
 mod hook_judgment;
 mod hook_next;
 mod overlay;
-mod socket;
 mod state;
 
 use std::ffi::c_void;
@@ -27,7 +26,7 @@ pub extern "system" fn DllMain(
         DLL_PROCESS_ATTACH => {
             init_logger();
 
-            if let Err(err) = ddr_capture::initialize() {
+            if let Err(err) = cluedo::initialize() {
                 log::error!("Failed to initialize ddrgp_overlay: {err:#}");
             }
         }

@@ -1,17 +1,16 @@
+use crate::{Message, encode};
+
 use std::net::UdpSocket;
 use std::sync::OnceLock;
 use std::sync::mpsc::{self, Sender};
 
-use ddr_protocol::Message;
-
 pub const SOCKET_ADDR: &str = "127.0.0.1:7877";
-
 static SOCKET: OnceLock<UdpSocket> = OnceLock::new();
 static TX: OnceLock<Sender<Message>> = OnceLock::new();
 
 fn send(msg: &Message) {
     if let Some(sock) = SOCKET.get() {
-        if let Some(bytes) = ddr_protocol::encode(msg) {
+        if let Some(bytes) = encode(msg) {
             let _ = sock.send(&bytes);
         }
     }

@@ -1,4 +1,6 @@
+mod socket;
 use serde::{Deserialize, Serialize};
+pub use socket::*;
 
 #[derive(Serialize, Deserialize)]
 pub enum JudgmentKind {

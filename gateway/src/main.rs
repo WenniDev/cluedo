@@ -8,7 +8,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use gpui::prelude::*;
 use gpui::*;
 
-use ddr_protocol::Message;
+use socket::Message;
 
 const DEFAULT_UDP_ADDR: &str = "127.0.0.1:7877";
 const WS_ADDR: &str = "127.0.0.1:7878";
@@ -72,7 +72,7 @@ fn start_udp_thread(
             match sock.recv(&mut buf) {
                 Ok(len) => {
                     let data = buf[..len].to_vec();
-                    if let Some(msg) = ddr_protocol::decode(&data) {
+                    if let Some(msg) = socket::decode(&data) {
                         log_tx
                             .try_send(LogEntry {
                                 time: now_str(),
@@ -259,11 +259,7 @@ impl Render for OverlayView {
                                     }
                                 }),
                             )
-                            .child(
-                                div()
-                                    .text_color(rgb(0x888888))
-                                    .child(time),
-                            )
+                            .child(div().text_color(rgb(0x888888)).child(time))
                             .child(div().child(msg))
                     })),
             )
@@ -280,7 +276,9 @@ fn main() {
         let listener = TcpListener::bind(WS_ADDR).expect("failed to bind WebSocket");
         for stream in listener.incoming() {
             let Ok(stream) = stream else { continue };
-            let Ok(mut ws) = tungstenite::accept(stream) else { continue };
+            let Ok(mut ws) = tungstenite::accept(stream) else {
+                continue;
+            };
             let (tx, rx) = mpsc::channel::<Vec<u8>>();
             ws_clients_ws.lock().unwrap().push(tx);
             thread::spawn(move || {

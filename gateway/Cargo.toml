@@ -1,10 +1,10 @@
 [package]
-name = "ddr_overlay"
+name = "gateway"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-ddr_protocol = { path = "../ddr_protocol" }
+socket = { path = "../socket" }
 tungstenite = "0.29.0"
 gpui = "0.2.2"
 async-channel = "2"
