@@ -1,0 +1,127 @@
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"
+    />
+</head>
+
+<style>
+    a {
+        font-family: "Roboto", sans-serif;
+        font-optical-sizing: auto;
+        font-size: 3em;
+        font-weight: 700;
+        font-style: normal;
+        font-variation-settings: "wdth" 100;
+    }
+
+    #overlay {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: stretch;
+        align-content: stretch;
+        gap: 60px;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        whidth: fit-content;
+    }
+    .judgment {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 10px;
+        text-shadow:
+            4px 0 black,
+            -4px 0 black,
+            0 4px black,
+            0 -4px black,
+            4px 4px black,
+            -4px -4px black,
+            4px -4px black,
+            -4px 4px black,
+            2px 4px black,
+            -2px 4px black,
+            2px -4px black,
+            -2px -4px black,
+            4px 2px black,
+            -4px 2px black,
+            4px -2px black,
+            -4px -2px black;
+    }
+
+    .timing {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 10px;
+        color: white;
+    }
+</style>
+
+<div id="overlay">
+    <div class="judgment">
+        <a style="color: palegoldenrod">MARVELOUS</a>
+        <a style="color: yellow">PERFECT</a>
+        <a style="color: green">GREAT</a>
+        <a style="color: steelblue">GOOD</a>
+        <a style="color: orangered">O.K.</a>
+        <a style="color: darkred">Miss</a>
+        <a style="color: royalblue">FAST</a>
+        <a style="color: hotpink">SLOW</a>
+    </div>
+    <div class="timing">
+        <a id="Marvelous">0</a>
+        <a id="Perfect">0</a>
+        <a id="Great">0</a>
+        <a id="Good">0</a>
+        <a id="Ok">0</a>
+        <a id="Miss">0</a>
+        <a id="Fast">0</a>
+        <a id="Slow">0</a>
+    </div>
+</div>
+
+<script>
+    const ws = new WebSocket("ws://127.0.0.1:7878");
+    let overlay = document.getElementById("overlay");
+    ws.onmessage = (event) => {
+        let data = JSON.parse(event.data);
+        if (data.type === "Judgment") {
+            const kind = data.data.kind === "Ng" ? "Miss" : data.data.kind;
+            let number = parseInt(document.getElementById(kind).textContent);
+            document.getElementById(kind).textContent = number + 1;
+            if (
+                data.data.kind !== "Marvelous" &&
+                data.data.kind !== "Ok" &&
+                data.data.kind !== "Ng"
+            ) {
+                if (data.data.timing < 0) {
+                    let fast = parseInt(
+                        document.getElementById("Fast").textContent,
+                    );
+                    document.getElementById("Fast").textContent = fast + 1;
+                } else if (data.data.timing > 0) {
+                    let slow = parseInt(
+                        document.getElementById("Slow").textContent,
+                    );
+                    document.getElementById("Slow").textContent = slow + 1;
+                }
+            }
+        } else if (data.type === "Next") {
+            document.getElementById("Marvelous").textContent = 0;
+            document.getElementById("Perfect").textContent = 0;
+            document.getElementById("Great").textContent = 0;
+            document.getElementById("Good").textContent = 0;
+            document.getElementById("Ok").textContent = 0;
+            document.getElementById("Miss").textContent = 0;
+            document.getElementById("Slow").textContent = 0;
+            document.getElementById("Fast").textContent = 0;
+        }
+    };
+</script>

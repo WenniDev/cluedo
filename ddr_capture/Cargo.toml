@@ -1,0 +1,24 @@
+[package]
+name = "ddr_capture"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+name = "ddr_capture"
+
+[dependencies]
+anyhow = "1.0.102"
+env_logger = "0.11.9"
+log = "0.4"
+memory-rs = "0.2.6"
+retour = { version = "0.4.0-alpha.4" }
+ddr_protocol = { path = "../ddr_protocol" }
+windows = { version = "0.58", features = [
+    "Win32_System_SystemServices",
+    "Win32_Graphics_Direct3D9",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Input_KeyboardAndMouse"
+] }
+tungstenite = "0.29.0"
+hudhook = { git = "https://github.com/veeenu/hudhook", features = ["dx9"] }
