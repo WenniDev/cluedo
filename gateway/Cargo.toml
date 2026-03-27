@@ -10,5 +10,6 @@ path = "src/main.rs"
 [dependencies]
 socket = { path = "../socket" }
 tungstenite = "0.29.0"
-gpui = "0.2.2"
 async-channel = "2"
+ratatui = "0.29"
+crossterm = "0.28"
